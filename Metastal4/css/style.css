@@ -202,3 +202,44 @@ body {
     position: relative;
     left: calc(50% - 240px);
 }
+
+.contactCard_Title {
+    font-weight: bold;
+}
+
+.contactCard {
+    margin-right: 3rem;
+}
+
+.contactCards {
+    display: flex;
+    text-align: center;
+}
+
+.contactCard a {
+    text-decoration: none;
+    color: #11101d;
+}
+
+/* Telefon */
+
+@media all and (max-width: 1080px) {
+    .aboutSite_Icon {
+        display: none;
+    }
+
+    .sidebar.active {
+        position: absolute;
+        z-index: 5;
+        width: 100%;
+    }
+
+    .home_content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .sidebar.active ~ .home_content {
+        width: 100%;
+    }
+}
