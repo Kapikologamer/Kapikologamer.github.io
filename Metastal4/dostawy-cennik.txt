@@ -1,0 +1,8 @@
+kurier:
+
+inpost - 12.99zł
+dpd - 19.99zł
+
+paczkomat:
+
+inpost - 9.99zł

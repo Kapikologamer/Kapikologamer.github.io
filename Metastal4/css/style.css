@@ -216,7 +216,7 @@ body {
     text-align: center;
 }
 
-.contactCard a {
+.aboutSite_text a {
     text-decoration: none;
     color: #11101d;
 }
@@ -253,4 +253,35 @@ body {
         position: fixed;
         z-index: 1;
     }
+}
+
+
+
+
+
+
+
+
+/* Dostawy */
+
+.aboutSite_text .container.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.column-title {
+    font-weight: bold;
+}
+
+.aboutSite_text {
+    font-size: 20px;
+}
+
+.aboutSite_title {
+    font-weight: bold;
+}
+
+.aboutSite_text .container.grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
