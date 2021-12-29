@@ -1,0 +1,280 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700;800;900&display=swap');
+
+
+/* Ważne ustawienia */
+
+*, *::before, *::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 0.9rem;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #6b44e0;
+    border-radius: 5px;
+}
+
+body, button, input, textarea{
+    font-family: "Poppins", sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
+img{
+    width: 100%;
+}
+
+.container{
+    position: relative;
+    z-index: 5;
+    max-width: 92rem;
+    padding: 0 4rem;
+    margin: 0 auto;
+}
+
+.btn{
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background-color: #784cfb;
+    color: #fff;
+    border-radius: 2rem;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn:hover{
+    background-color: #6b44e0;
+}
+
+.grid-2{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    justify-content: center;
+}
+
+.text{
+    font-size: 1.25rem;
+    color: #7a7a7a;
+    line-height: 1.6;
+}
+
+.column-1{
+    margin-right: 1.5rem;
+}
+
+.column-2{
+    margin-left: 1.5rem;
+}
+
+.image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section{
+    padding: 7rem 0;
+}
+
+.section-header{
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.title{
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+    line-height: 1;
+    font-size: 2.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.title:before{
+    content: attr(data-title);
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #784cfb;
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.title:after{
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 5px;
+    border-radius: 3px;
+    background-color: #784cfb;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-header{
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.title-sm{
+    color:#333;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+/* Koniec ważnych ustawień */
+
+
+/* Header */
+
+header{
+    width: 100%;
+    background-color: #f6f7fb;
+    overflow: hidden;
+}
+
+nav{
+    width: 100%;
+    position: relative;
+    z-index: 50;
+}
+
+nav .container{
+    display: flex;
+    justify-content: space-between;
+    height: 6rem;
+    align-items: center;
+}
+
+.logo{
+    width: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.links ul{
+    display: flex;
+
+}
+
+.links a{
+    display: inline-block;
+    padding: 0.9rem 1.2rem;
+    color: #333;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 1;
+    transition: 0.3s;
+}
+
+.links a:hover{
+    color: #784cfb;
+}
+
+.header-content .container.grid-2{    
+    grid-template-columns: 2.5fr 3.5fr;
+    min-height: calc(100vh - 6rem);
+    padding-bottom: 2.5rem;
+    text-align: left;
+}
+
+
+.header-title{
+    font-size: 3.8rem;
+    line-height: 0.8;
+    color: #333;
+}
+
+.header-content .text{
+    margin: 2.15rem 0;
+}
+
+.header-content .image .img-element{
+    max-width: 750px;
+}
+
+/* End Header */
+
+/* Promocje */
+
+.cards{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.card-wrap{
+    margin: 1.7rem 0.8rem;
+}
+
+.card{
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 390px;
+    min-height: 520px;
+    background-color: #f6f7fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    overflow: hidden;
+    box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+}
+
+.card:hover {
+    box-shadow: 0 10px 16px 0 #784cfb, 0 6px 20px 0 #784cfb;
+}
+
+.icon{
+    width: 90px;
+    margin-bottom: 1.7rem;
+}
+
+.card .title-sm{
+    margin-top: 6rem;
+    margin-bottom: 2rem;
+}
+
+.sale {
+    margin-top: 1rem;
+    margin-bottom: 0.2rem;
+    text-decoration: line-through;
+    color: red;
+}
+
+.priceafter {
+    color: green;
+}
+
+.price {
+    margin-top: 1rem;
+}
+
+/* Koniec Promocji */
+
+/* Nowości */
+
+/* Koniec Nowości */
