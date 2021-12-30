@@ -82,6 +82,7 @@ img{
 
 .column-2{
     margin-left: 1.5rem;
+    max-height: 1vh;
 }
 
 .image{
@@ -160,10 +161,15 @@ nav{
 }
 
 nav .container{
+    max-height: 5rem;
+    background-color: #fff;
+    position: fixed;
     display: flex;
     justify-content: space-between;
     height: 6rem;
+    width: 100%;
     align-items: center;
+    box-shadow: 0 10px 16px 0 #784cfb46, 0 6px 20px 0 #784cfb46;
 }
 
 .logo{
@@ -174,7 +180,6 @@ nav .container{
 
 .links ul{
     display: flex;
-
 }
 
 .links a{
@@ -197,6 +202,8 @@ nav .container{
     min-height: calc(100vh - 6rem);
     padding-bottom: 2.5rem;
     text-align: left;
+    padding-top: 9rem;
+    height: 100vh;
 }
 
 
@@ -211,7 +218,7 @@ nav .container{
 }
 
 .header-content .image .img-element{
-    max-width: 750px;
+    max-width: calc((100vh - 9rem));
 }
 
 /* End Header */
