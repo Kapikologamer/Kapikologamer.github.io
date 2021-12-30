@@ -175,12 +175,46 @@ nav .container{
     width: 100%;
     align-items: center;
     box-shadow: 0 10px 16px 0 #784cfb46, 0 6px 20px 0 #784cfb46;
+    transition: all 0.5s ease;
+}
+
+nav .container.active {
+    max-width: calc(25px + 1rem);
+    margin-left: 1rem;
+    transition: all 0.5s ease;
+    padding-left: 32px;
+    padding-right: 60px;
+}
+
+.menu {
+    font-size: 25px;
+    font-weight: bold;
+    left: 2px;
 }
 
 .logo{
     width: 60px;
     display: flex;
     align-items: center;
+    transition: all 0.5s ease;
+}
+
+.navlogo.active {
+    display: none;
+    transition: all 0.5s ease;
+}
+
+.navlogo {
+    transition: all 0.5s ease;
+}
+
+.hlinks.active {
+    display: none;
+    transition: all 0.5s ease;
+}
+
+.hlinks {
+    transition: all 0.5s ease;
 }
 
 .links ul{
