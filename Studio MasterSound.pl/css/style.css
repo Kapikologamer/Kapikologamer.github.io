@@ -17,8 +17,8 @@
 
 ::-webkit-scrollbar-thumb {
     background-color: #00d2e1;
-    border-top-left-radius: 5rem;
-    border-bottom-left-radius: 5rem;
+    
+    
 }
 
 body, button, input, textarea{
