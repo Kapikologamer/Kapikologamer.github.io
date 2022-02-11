@@ -230,6 +230,15 @@ footer {
     font-size: 14px;
 }
 
+#Footer_links a{
+    color: #1c1c1c;
+    transition: 0.3s;
+}
+
+#Footer_links a:hover{
+    color: #f6f7fb;
+}
+
 
 .Footer_Logo {
     text-align: center;
