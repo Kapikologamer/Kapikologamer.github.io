@@ -1,0 +1,69 @@
+.splash {
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: 1000;
+    background-color: #f7f7f7;
+    opacity: 1;
+    animation: fadeout 2s forwards cubic-bezier(0,0,0,0);
+}
+
+.splash_img {
+    margin-top: 50vh;
+    z-index: 1000;
+    width: 15vh;
+    display: block;
+    margin: 35vh auto auto auto;
+}
+
+.splash_loader {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.splash_box {
+    margin-top: 5vh;
+    padding: 4px;
+    width: 25vh;
+    height: 20px;
+    border-radius: 20px;
+}
+
+.splash_logo {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.splash_line {
+    
+    height: 1vh;
+    border-radius: 20px;
+    background-color: #7f7f7f;
+    animation: loading 2s forwards cubic-bezier(0,0,0,0);
+}
+
+@keyframes loading{
+    0%{
+        width: 0%;
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        width: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    90%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
