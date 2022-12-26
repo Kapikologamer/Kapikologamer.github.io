@@ -6,14 +6,43 @@ footer {
 }
 
 .box_collumns {
+    width: 50%;
     position: absolute;
     text-align: center;
     color: #f7f7f7;
 }
 
+.footer_copy {
+    display: block;
+}
+
 .copyright {
-    bottom: 0;
     text-align: center;
     width: 100%;
     color: #f7f7f7;
+}
+
+.bx_footer {
+    font-size: 2.5rem;
+}
+
+.footer_links {
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.social_links {
+    color: #f7f7f7;
+}
+
+.footer_logo {
+    display: block;
+    margin: auto;
+    float: right;
+    width: 50%;
+}
+
+.footer_img {
+    width: 40%;
 }
