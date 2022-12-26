@@ -14,6 +14,7 @@
     width: 15vh;
     display: block;
     margin: 35vh auto auto auto;
+    cursor: default;
 }
 
 .splash_loader {
@@ -22,6 +23,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: default;
 }
 
 .splash_box {
@@ -30,12 +32,14 @@
     width: 25vh;
     height: 20px;
     border-radius: 20px;
+    cursor: default;
 }
 
 .splash_logo {
     text-align: center;
     font-size: 25px;
     font-weight: bold;
+    cursor: default;
 }
 
 .splash_line {
@@ -44,6 +48,7 @@
     border-radius: 20px;
     background-color: #7f7f7f;
     animation: loading 2s forwards cubic-bezier(0,0,0,0);
+    cursor: default;
 }
 
 @keyframes loading{
