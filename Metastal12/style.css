@@ -32,6 +32,19 @@ body {
     background-attachment: fixed;
     background-position: center;
     background-size: 20vh;
+    animation: scrolllock 2s forwards cubic-bezier(0,0,0,0);
+}
+
+@keyframes scrolllock {
+    0%{
+        overflow: hidden;
+    }
+    95%{
+        overflow: hidden;
+    }
+    100%{
+        overflow: visible;
+    }
 }
 
 header {
