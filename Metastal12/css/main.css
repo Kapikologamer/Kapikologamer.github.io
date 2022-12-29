@@ -34,3 +34,9 @@ main {
     align-items: center;
     flex-wrap: wrap;
 }
+
+.section_title {
+    text-align: center;
+    padding: 2rem;
+    border-bottom: solid 2px #c5c5c5;
+}
