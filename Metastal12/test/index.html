@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="postsContainer"></div>
+<script>
+  function renderPost(title, description) {
+    // Create the post element
+    var post = document.createElement("div");
+    post.className = "post";
+
+    // Create the title element
+    var postTitle = document.createElement("h3");
+    postTitle.innerHTML = title;
+    post.appendChild(postTitle);
+
+    // Create the description element
+    var postDescription = document.createElement("p");
+    postDescription.innerHTML = description;
+    post.appendChild(postDescription);
+
+    // Add the post to the page
+    document.getElementById("postsContainer").appendChild(post);
+  }
+
+  // Render some sample posts
+  renderPost("Tytuł", "Dzień dobry");
+  renderPost("Metastal", "29.12.2022 - Dzisiaj jest czwartek");
+</script>
+</body>
+</html>

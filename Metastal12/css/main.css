@@ -1,3 +1,36 @@
 main {
     min-height: 100vh;
 }
+
+.section_container {
+    width: 80%;
+    height: calc(85vh - 4rem);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 2rem;
+    /* background-color: #7f7f7f; */
+    background-color: #f7f7f7;
+    animation: loadup_sections 3s forwards cubic-bezier(0,0,0,0);
+    box-shadow:  25px 25px 87px #c5c5c5, -25px -25px 87px #fbfbfb;
+}
+
+@keyframes loadup_sections {
+    0% {
+        opacity: 0;
+    }
+
+    95% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}

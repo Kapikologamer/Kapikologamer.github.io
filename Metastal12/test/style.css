@@ -1,0 +1,15 @@
+.post {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+  
+  .post h3 {
+    margin: 0;
+  }
+  
+  .post p {
+    margin: 0;
+    font-size: 14px;
+  }
+  

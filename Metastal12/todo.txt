@@ -1,0 +1,3 @@
+div o nas {Tytuł, opis, kolumna, logo}
+div {slideshow, https://www.w3schools.com/howto/howto_js_slideshow.asp}
+sklep
