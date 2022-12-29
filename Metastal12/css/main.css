@@ -2,6 +2,19 @@ main {
     min-height: 100vh;
 }
 
+.main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.section_title {
+    text-align: center;
+    padding: 2rem;
+    border-bottom: solid 2px #c5c5c5;
+}
+
 .section_container {
     width: 80%;
     height: calc(85vh - 4rem);
@@ -28,15 +41,4 @@ main {
     }
 }
 
-.main_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
 
-.section_title {
-    text-align: center;
-    padding: 2rem;
-    border-bottom: solid 2px #c5c5c5;
-}
