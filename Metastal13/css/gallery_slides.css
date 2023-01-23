@@ -25,6 +25,14 @@
     border-radius: 0 3px 3px 0;
     user-select: none;
   }
+
+  /* Image Border Radius */
+
+  .mySlides img {
+    border-radius: 1rem;
+    border-image: linear-gradient(60deg, rgba(4,0,75,1) 0%, rgba(57,102,255,1) 0%, rgba(85,252,248,1) 100%);
+    border: 5px solid transparent;
+  }
   
   /* Position the "next button" to the right */
   .next {
