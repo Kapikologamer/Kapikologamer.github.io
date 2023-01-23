@@ -1,0 +1,48 @@
+#banner {
+    height: calc(100vh - 4rem - 37.781px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.banner_container {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.banner_logo {
+    letter-spacing: 1px;
+    font-size: 2.5rem;
+    background-image: linear-gradient(60deg, rgba(4,0,75,1) 0%, rgba(57,102,255,1) 0%, rgba(85,252,248,1) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.banner_short {
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.banner_description {
+    padding-top: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    max-width: 35vw;
+    color: #fff;
+}
+
+.banner_links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.banner_social {
+    font-size: 3rem;
+    color: #fff;
+    padding: 1rem;
+}
