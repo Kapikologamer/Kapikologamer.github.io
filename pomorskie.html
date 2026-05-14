@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Województwo Pomorskie – Prezentacja Geograficzna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #0a1628;
+            --color-bg-deep: #050e1e;
+            --color-surface: #112240;
+            --color-text: #e8f4fd;
+            --color-text-secondary: #b8d4ed;
+            --color-text-muted: #7fa8c9;
+            --color-accent-1: #3b9fd4;
+            --color-accent-2: #f0c040;
+            --color-accent-3: #48c78e;
+            --color-glass-bg: rgba(255,255,255,0.05);
+            --color-glass-border: rgba(255,255,255,0.10);
+            --color-vignette: rgba(0,0,0,0.45);
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+    </style>
+    <style>
+        :root { --color-bg: #0a1628; --color-text: #e8f4fd; --glow-color-rgb: 59,159,212; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { background: var(--color-bg); margin: 0; }
+        body { font-family: var(--font-body); color: var(--color-text); overflow: hidden; height: 100vh; width: 100vw; }
+        .deck { width: 100vw; height: 100vh; position: relative; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(0.95); transition: opacity 0.7s ease, transform 0.7s ease; pointer-events: none; overflow: hidden; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+        .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1100px; padding: clamp(1.2rem, 3vw, 3rem); }
+        .nav-controls { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 100; background: var(--color-glass-bg); backdrop-filter: blur(10px); padding: 8px 22px; border-radius: 40px; border: 1px solid var(--color-glass-border); }
+        .nav-btn { width: 36px; height: 36px; border: none; background: var(--color-glass-bg); color: var(--color-accent-1); border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .nav-btn:hover { background: var(--color-glass-border); }
+        .slide-dots { display: flex; gap: 7px; }
+        .slide-dots .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--color-glass-border); cursor: pointer; transition: background 0.3s, transform 0.3s; }
+        .slide-dots .dot.active { background: var(--color-accent-1); transform: scale(1.3); }
+        .slide-counter { font-size: 0.78rem; color: var(--color-text-muted); min-width: 38px; text-align: center; }
+        .reveal { opacity: 0; transform: translateY(20px); }
+        .text-glow { text-shadow: 0 0 20px rgba(var(--glow-color-rgb), 0.5), 0 0 40px rgba(var(--glow-color-rgb), 0.2); }
+        .stat-glow { text-shadow: 0 0 30px rgba(var(--glow-color-rgb), 0.6); }
+        @keyframes glow-pulse {
+            0%,100% { text-shadow: 0 0 18px rgba(var(--glow-color-rgb),0.5); }
+            50% { text-shadow: 0 0 32px rgba(var(--glow-color-rgb),0.85); }
+        }
+        .glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+        @keyframes float-slow { 0%{transform:translate(0,0) scale(1);} 25%{transform:translate(50px,-40px) scale(1.1);} 50%{transform:translate(-30px,35px) scale(0.92);} 75%{transform:translate(40px,15px) scale(1.07);} 100%{transform:translate(0,0) scale(1);} }
+        @keyframes float-drift { 0%{transform:translate(0,0) scale(1) rotate(0deg);} 33%{transform:translate(-45px,-55px) scale(1.13) rotate(2.5deg);} 66%{transform:translate(35px,28px) scale(0.9) rotate(-2deg);} 100%{transform:translate(0,0) scale(1) rotate(0deg);} }
+        @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+        .gradient-mesh { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); animation: float-slow 10s ease-in-out infinite; }
+        .blob:nth-child(2) { animation: float-drift 14s ease-in-out infinite; }
+        .blob:nth-child(3) { animation: float-slow 18s ease-in-out infinite reverse; }
+        .slide::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-repeat:repeat; background-size:256px 256px; opacity:0.03; mix-blend-mode:overlay; }
+        .slide::after { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(ellipse at center, transparent 50%, var(--color-vignette) 100%); }
+        .bar-fill { border-radius: 4px; background: linear-gradient(90deg, var(--color-accent-1), var(--color-accent-2)); height: 100%; transition: width 0.8s ease; }
+        .bar-track { background: rgba(255,255,255,0.08); border-radius:4px; height:22px; overflow:hidden; }
+        @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:0.01ms!important; transition-duration:0.2s!important; } }
+    </style>
+</head>
+<body>
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+<div class="deck">
+
+<!-- SLAJD 1: TYTUŁ -->
+<div class="slide active" data-slide="1">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:520px;height:520px;top:-120px;right:-100px;background:var(--color-accent-1);opacity:0.14;"></div>
+        <div class="blob" style="width:320px;height:320px;bottom:-90px;left:-70px;background:var(--color-accent-2);opacity:0.11;"></div>
+        <div class="blob" style="width:220px;height:220px;top:40%;left:12%;background:var(--color-accent-3);opacity:0.09;"></div>
+    </div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content text-center">
+        <div class="text-[80px] mb-3 animate-[float_3s_ease-in-out_infinite]">🌊</div>
+        <h1 class="font-display text-[clamp(2.6rem,6.5vw,5rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent tracking-tight mb-4 reveal">Województwo Pomorskie</h1>
+        <p class="text-[clamp(0.9rem,1.4vw,1.25rem)] font-light text-text-muted tracking-[6px] uppercase reveal">Prezentacja geograficzna · Klasa 3/4 LO</p>
+        <p class="mt-6 text-text-secondary text-sm reveal">Najdalej wysunięte na północ województwo Polski</p>
+    </div>
+</div>
+
+<!-- SLAJD 2: POŁOŻENIE NA MAPIE -->
+<div class="slide" data-slide="2">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:var(--color-accent-1);opacity:0.08;"></div>
+        <div class="blob" style="width:250px;height:250px;bottom:-50px;left:-40px;background:var(--color-accent-3);opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">📍 Położenie na mapie Polski</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-6 reveal">Lokalizacja i granice</p>
+        <div class="grid grid-cols-2 gap-5">
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <div class="text-2xl mb-2">🧭</div>
+                <h3 class="font-bold text-accent-1 mb-2">Położenie</h3>
+                <p class="text-text-secondary text-sm leading-relaxed">Północna Polska, bezpośrednio nad <strong class="text-text">Morzem Bałtyckim</strong>. Najdalej wysunięte na północ województwo w kraju.</p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <div class="text-2xl mb-2">🗺️</div>
+                <h3 class="font-bold text-accent-2 mb-2">Sąsiedztwo</h3>
+                <ul class="text-text-secondary text-sm space-y-1">
+                    <li>⬅️ <strong class="text-text">zachodniopomorskie</strong> (182 km)</li>
+                    <li>⬇️ <strong class="text-text">kujawsko-pomorskie</strong> (239 km)</li>
+                    <li>➡️ <strong class="text-text">warmińsko-mazurskie</strong> (191 km)</li>
+                    <li>↙️ <strong class="text-text">wielkopolskie</strong> (62 km)</li>
+                    <li>🌍 <strong class="text-text">Rosja</strong> – granica 0,8 km (Mierzeja Wiślana)</li>
+                </ul>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <div class="text-2xl mb-2">📐</div>
+                <h3 class="font-bold text-accent-3 mb-2">Wymiary i zasięg</h3>
+                <p class="text-text-secondary text-sm leading-relaxed">Rozciągłość N–S: <strong class="text-text">149 km</strong><br>Rozciągłość W–E: <strong class="text-text">192 km</strong><br>Punkt najdalej na N: Jastrzębia Góra (54°50′N) – <em>najdalej wysunięty punkt lądu Polski!</em></p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <div class="text-2xl mb-2">🌍</div>
+                <h3 class="font-bold text-accent-1 mb-2">Region historyczny</h3>
+                <p class="text-text-secondary text-sm leading-relaxed">Większość to <strong class="text-text">Pomorze Gdańskie</strong>. Na NW – Pomorze Zachodnie, na E – historyczne Prusy. Województwo utworzone <strong class="text-text">1 stycznia 1999 r.</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 3: STATYSTYKI PODSTAWOWE -->
+<div class="slide" data-slide="3">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-100px;right:-80px;background:var(--color-accent-2);opacity:0.09;"></div>
+        <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-50px;background:var(--color-accent-1);opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">📊 Kluczowe statystyki</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-6 reveal">Dane GUS – stan 2024</p>
+        <div class="grid grid-cols-3 gap-4 mb-5">
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 text-center hover:-translate-y-1 hover:shadow-xl transition">
+                <div class="text-3xl font-black text-accent-2 glow-pulse" data-count="18310">18 310</div>
+                <div class="text-xs text-text-muted uppercase tracking-wider mt-1">km² powierzchni</div>
+                <div class="text-accent-3 text-xs mt-2">9. miejsce w Polsce</div>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 text-center hover:-translate-y-1 hover:shadow-xl transition">
+                <div class="text-3xl font-black text-accent-1 glow-pulse" data-count="2358323">2 358 323</div>
+                <div class="text-xs text-text-muted uppercase tracking-wider mt-1">mieszkańców</div>
+                <div class="text-accent-3 text-xs mt-2">6. miejsce w Polsce</div>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 text-center hover:-translate-y-1 hover:shadow-xl transition">
+                <div class="text-3xl font-black text-accent-3 glow-pulse">129</div>
+                <div class="text-xs text-text-muted uppercase tracking-wider mt-1">os./km² – gęstość</div>
+                <div class="text-accent-3 text-xs mt-2">ok. 7. miejsce w Polsce</div>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 reveal">
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-4 text-center">
+                <div class="text-xl font-bold text-accent-1">43</div>
+                <div class="text-xs text-text-muted mt-1">miasta</div>
+            </div>
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-4 text-center">
+                <div class="text-xl font-bold text-accent-2">16 + 4</div>
+                <div class="text-xs text-text-muted mt-1">powiatów + miasta na pr. powiatu</div>
+            </div>
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-4 text-center">
+                <div class="text-xl font-bold text-accent-3">36%</div>
+                <div class="text-xs text-text-muted mt-1">lesistość</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 4: GŁÓWNE MIASTA I KONURBACJE -->
+<div class="slide" data-slide="4">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:360px;height:360px;top:-70px;left:-70px;background:var(--color-accent-3);opacity:0.08;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-60px;right:-50px;background:var(--color-accent-1);opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">🏙️ Główne miasta i konurbacje</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-5 reveal">Ośrodki miejskie województwa</p>
+        <div class="grid grid-cols-2 gap-5">
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-l-4 border-accent-1 rounded-xl p-5">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">🔱</span>
+                    <h3 class="font-bold text-accent-1 text-lg">TRÓJMIASTO</h3>
+                    <span class="text-xs bg-accent-1/20 text-accent-1 px-2 py-0.5 rounded-full">konurbacja</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between items-center">
+                        <span class="text-text-secondary">🏛️ Gdańsk (stolica woj.)</span>
+                        <span class="font-bold text-text">487 834 mk.</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-text-secondary">⚓ Gdynia</span>
+                        <span class="font-bold text-text">240 554 mk.</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-text-secondary">🎭 Sopot</span>
+                        <span class="font-bold text-text">31 696 mk.</span>
+                    </div>
+                    <div class="border-t border-glass-border pt-2 text-accent-2 font-semibold">≈ 760 000 mk. razem</div>
+                    <p class="text-text-muted text-xs">Jeden z największych obszarów metropolitalnych w Polsce – port, gospodarka morska, turystyka</p>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-lg">🌊</span>
+                        <h3 class="font-bold text-accent-2">Małe Trójmiasto Kaszubskie</h3>
+                    </div>
+                    <p class="text-text-secondary text-xs">Wejherowo + Rumia + Reda – mniejsza konurbacja przy Trójmieście (~128 tys. mk.)</p>
+                </div>
+                <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                    <h3 class="font-bold text-accent-3 mb-2">Inne ważne miasta</h3>
+                    <div class="grid grid-cols-2 gap-1 text-xs text-text-secondary">
+                        <span>🏭 Słupsk: <strong class="text-text">85 135</strong></span>
+                        <span>🚢 Tczew: <strong class="text-text">56 676</strong></span>
+                        <span>🏘️ Starogard Gd.: <strong class="text-text">45 184</strong></span>
+                        <span>🏰 Malbork: <strong class="text-text">36 573</strong></span>
+                    </div>
+                </div>
+                <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                    <h3 class="font-bold text-accent-1 mb-1 text-sm">Urbanizacja</h3>
+                    <p class="text-text-secondary text-xs">63% mieszkańców żyje w miastach. Aglomeracja trójmiejska ciągnie się przez 7 miast.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 5: UKSZTAŁTOWANIE TERENU -->
+<div class="slide" data-slide="5">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-90px;right:-80px;background:var(--color-accent-3);opacity:0.09;"></div>
+        <div class="blob" style="width:250px;height:250px;bottom:-50px;left:-40px;background:var(--color-accent-1);opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">⛰️ Ukształtowanie terenu</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-5 reveal">Rzeźba ukształtowana przez lądolód skandynawski</p>
+        <div class="grid grid-cols-3 gap-4">
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                <div class="text-2xl mb-2">🏔️</div>
+                <h3 class="font-bold text-accent-1 mb-2 text-sm">Wysoczyzny morenowe</h3>
+                <p class="text-text-secondary text-xs leading-relaxed">Dominują – ok. <strong class="text-text">46%</strong> powierzchni. Pojezierze Kaszubskie i Starogardzkie. <strong class="text-text">Wieżyca 329 m n.p.m.</strong> – najwyższy punkt woj.</p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                <div class="text-2xl mb-2">🏖️</div>
+                <h3 class="font-bold text-accent-2 mb-2 text-sm">Pas wybrzeża</h3>
+                <p class="text-text-secondary text-xs leading-relaxed">Mierzeje: <strong class="text-text">Helska i Wiślana</strong>. Klify (Jastrzębia Góra). Wydmy nadmorskie. Zatoka Gdańska i Pucka.</p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                <div class="text-2xl mb-2">🌾</div>
+                <h3 class="font-bold text-accent-3 mb-2 text-sm">Równiny i sandrowe</h3>
+                <p class="text-text-secondary text-xs leading-relaxed">Równiny sandrowe (~<strong class="text-text">24%</strong> powierzchni). Żuławy Wiślane – delta Wisły. Bory Tucholskie – rozległe lasy.</p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                <div class="text-2xl mb-2">🧊</div>
+                <h3 class="font-bold text-accent-1 mb-2 text-sm">Geneza krajobrazu</h3>
+                <p class="text-text-secondary text-xs leading-relaxed">Zlodowacenie bałtyckie ukształtowało rzeźbę: jeziora rynnowe, moreny, ozy, kemy.</p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                <div class="text-2xl mb-2">🌊</div>
+                <h3 class="font-bold text-accent-2 mb-2 text-sm">Delty i doliny</h3>
+                <p class="text-text-secondary text-xs leading-relaxed">Żuławy – nizinna delta Wisły, teren depresyjny, do <strong class="text-text">–1,8 m n.p.m.</strong></p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4">
+                <div class="text-2xl mb-2">📌</div>
+                <h3 class="font-bold text-accent-3 mb-2 text-sm">Punkty skrajne</h3>
+                <p class="text-text-secondary text-xs leading-relaxed">N: <strong class="text-text">54°50′N</strong> (Jastrzębia Góra – najdalej na N w Polsce!)<br>W: 16°42′E · E: 19°38′E · S: 53°29′N</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 6: RZEKI I JEZIORA -->
+<div class="slide" data-slide="6">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:380px;height:380px;top:-80px;left:-70px;background:var(--color-accent-1);opacity:0.10;"></div>
+        <div class="blob" style="width:260px;height:260px;bottom:-60px;right:-50px;background:var(--color-accent-3);opacity:0.08;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">💧 Rzeki i jeziora</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-5 reveal">Hydrografia województwa</p>
+        <div class="grid grid-cols-2 gap-5">
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <h3 class="font-bold text-accent-1 mb-3 flex items-center gap-2"><span>🌊</span> Główne rzeki</h3>
+                <div class="space-y-3">
+                    <div class="border-l-2 border-accent-1 pl-3">
+                        <p class="font-semibold text-text text-sm">Wisła</p>
+                        <p class="text-text-secondary text-xs">Najdłuższa rzeka Polski (1047 km). Uchodzi do Bałtyku. Tworzy Żuławy Wiślane – rozbudowaną deltę.</p>
+                    </div>
+                    <div class="border-l-2 border-accent-2 pl-3">
+                        <p class="font-semibold text-text text-sm">Słupia</p>
+                        <p class="text-text-secondary text-xs">143 km, uchodzi pod Ustką. Dolina Słupi – park krajobrazowy.</p>
+                    </div>
+                    <div class="border-l-2 border-accent-3 pl-3">
+                        <p class="font-semibold text-text text-sm">Łeba, Łupawa, Brda</p>
+                        <p class="text-text-secondary text-xs">Rzeki uchodzące bezpośrednio do Bałtyku lub do jezior przybrzeżnych.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <h3 class="font-bold text-accent-3 mb-3 flex items-center gap-2"><span>🏞️</span> Jeziora</h3>
+                <p class="text-text-secondary text-sm mb-3">Gęsta sieć jezior – głównie <strong class="text-text">rynnowe</strong>, ukształtowane przez lądolód. Pojezierze Kaszubskie i Starogardzkie.</p>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm items-center">
+                        <span class="text-text-secondary">Jezioro Wdzydze</span>
+                        <span class="text-accent-2 font-bold text-xs">największe w woj. – 14,4 km²</span>
+                    </div>
+                    <div class="flex justify-between text-sm items-center">
+                        <span class="text-text-secondary">J. Raduńskie</span>
+                        <span class="text-accent-1 text-xs">rynnowe, głębokie</span>
+                    </div>
+                    <div class="flex justify-between text-sm items-center">
+                        <span class="text-text-secondary">Łebsko, Gardno</span>
+                        <span class="text-accent-3 text-xs">jeziora przybrzeżne, lagunowe</span>
+                    </div>
+                </div>
+                <div class="mt-3 bg-accent-1/10 rounded-lg p-3">
+                    <p class="text-xs text-accent-1">⚠️ Morze Bałtyckie to jednocześnie naturalna granica hydrograficzna – wybrzeże liczy ok. <strong>313 km</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 7: KLIMAT I PRZYRODA -->
+<div class="slide" data-slide="7">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:420px;height:420px;top:-100px;right:-90px;background:var(--color-accent-3);opacity:0.09;"></div>
+        <div class="blob" style="width:270px;height:270px;bottom:-60px;left:-40px;background:var(--color-accent-2);opacity:0.08;"></div>
+    </div>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">🌤️ Klimat i ochrona przyrody</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-5 reveal">Cechy klimatu i obszary chronione</p>
+        <div class="grid grid-cols-2 gap-5">
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <h3 class="font-bold text-accent-1 mb-3">🌡️ Klimat</h3>
+                <ul class="text-text-secondary text-sm space-y-2">
+                    <li>🌬️ <strong class="text-text">Morski wpływ Bałtyku</strong> – łagodniejsze zimy, chłodniejsze lata na wybrzeżu</li>
+                    <li>🌧️ Opady: <strong class="text-text">550–700 mm/rok</strong> (wyższe w Pojezierzu)</li>
+                    <li>🌡️ Temp. roczna: ok. <strong class="text-text">7–8°C</strong></li>
+                    <li>💨 Silne wiatry nadmorskie, mgły w okolicach Zatoki</li>
+                    <li>❄️ Zima łagodna na wybrzeżu, mroźniejsza w głębi lądu</li>
+                </ul>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                <h3 class="font-bold text-accent-3 mb-3">🌿 Ochrona przyrody</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-start gap-2">
+                        <span class="text-accent-3 font-bold">2 PN</span>
+                        <div>
+                            <p class="text-text font-medium">Parki Narodowe</p>
+                            <p class="text-text-secondary text-xs">Słowiński PN (wydmy ruchome!), Bory Tucholskie PN</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-accent-2 font-bold">9+</span>
+                        <div>
+                            <p class="text-text font-medium">Parki Krajobrazowe</p>
+                            <p class="text-text-secondary text-xs">Kaszubski, Trójmiejski, Mierzeja Wiślana, Nadmorski i inne</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-accent-1 font-bold">36%</span>
+                        <div>
+                            <p class="text-text font-medium">Lesistość</p>
+                            <p class="text-text-secondary text-xs">Powyżej średniej krajowej (30%). Bory Tucholskie – największy kompleks leśny Niżu Europ.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-accent-3 font-bold">2832</span>
+                        <div>
+                            <p class="text-text font-medium">Pomniki przyrody</p>
+                            <p class="text-text-secondary text-xs">W tym głazy narzutowe – pozostałości po lądolodzie</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 8: GOSPODARKA -->
+<div class="slide" data-slide="8">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-100px;right:-80px;background:var(--color-accent-2);opacity:0.09;"></div>
+        <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-40px;background:var(--color-accent-1);opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">💼 Gospodarka</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-5 reveal">Główne sektory i znaczenie regionu</p>
+        <div class="grid grid-cols-3 gap-4 mb-4">
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 text-center">
+                <div class="text-2xl mb-2">🚢</div>
+                <h3 class="font-bold text-accent-1 text-sm mb-1">Gospodarka morska</h3>
+                <p class="text-text-secondary text-xs">Port Gdynia – największy port kontenerowy w Polsce. Stocznie, przemysł okrętowy</p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 text-center">
+                <div class="text-2xl mb-2">🏖️</div>
+                <h3 class="font-bold text-accent-2 text-sm mb-1">Turystyka</h3>
+                <p class="text-text-secondary text-xs">Sopot, Hel, Łeba – centra turystyki morskiej. Malbork – zamek krzyżacki (UNESCO)</p>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 text-center">
+                <div class="text-2xl mb-2">💻</div>
+                <h3 class="font-bold text-accent-3 text-sm mb-1">Nowe technologie</h3>
+                <p class="text-text-secondary text-xs">Trójmiasto – ważny hub IT i technologiczny (Intel, Amazon, Lufthansa Systems)</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 reveal">
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-4 text-center">
+                <div class="text-xl font-bold text-accent-1">5.</div>
+                <div class="text-xs text-text-muted mt-1">miejsce PKB/mieszk. w Polsce</div>
+            </div>
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-4 text-center">
+                <div class="text-xl font-bold text-accent-2">3.</div>
+                <div class="text-xs text-text-muted mt-1">pod wzgl. wynagrodzeń w Polsce</div>
+            </div>
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-4 text-center">
+                <div class="text-xl font-bold text-accent-3">~4%</div>
+                <div class="text-xs text-text-muted mt-1">bezrobocie (jedno z najniższych)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 9: CIEKAWOSTKI I DZIEDZICTWO -->
+<div class="slide" data-slide="9">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:360px;height:360px;top:-80px;right:-70px;background:var(--color-accent-1);opacity:0.09;"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-40px;background:var(--color-accent-2);opacity:0.07;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content">
+        <h2 class="font-display text-[clamp(1.7rem,4vw,2.8rem)] font-bold reveal mb-1">⭐ Ciekawostki i dziedzictwo</h2>
+        <p class="text-text-muted text-sm uppercase tracking-widest mb-5 reveal">Unikalne cechy województwa</p>
+        <div class="space-y-3">
+            <div class="reveal bg-glass-bg border border-glass-border rounded-xl p-4 flex items-start gap-3">
+                <span class="text-2xl">🏰</span>
+                <div>
+                    <p class="font-semibold text-accent-2">Zamek w Malborku</p>
+                    <p class="text-text-secondary text-sm">Największy zamek gotycki na świecie (wg UNESCO). Siedziba Krzyżaków. Wpis na Listę Światowego Dziedzictwa UNESCO.</p>
+                </div>
+            </div>
+            <div class="reveal bg-glass-bg border border-glass-border rounded-xl p-4 flex items-start gap-3">
+                <span class="text-2xl">🌊</span>
+                <div>
+                    <p class="font-semibold text-accent-1">Słowiński Park Narodowy</p>
+                    <p class="text-text-secondary text-sm">Ruchome wydmy – przemieszczają się nawet 10 m/rok! Jeziora Łebsko i Gardno. Rezerwat Biosfery UNESCO.</p>
+                </div>
+            </div>
+            <div class="reveal bg-glass-bg border border-glass-border rounded-xl p-4 flex items-start gap-3">
+                <span class="text-2xl">🧑‍🤝‍🧑</span>
+                <div>
+                    <p class="font-semibold text-accent-3">Kaszubi</p>
+                    <p class="text-text-secondary text-sm">7,4% mieszkańców to Kaszubi – jedyna uznawalana w Polsce mniejszość etniczna. Język kaszubski ma status języka regionalnego.</p>
+                </div>
+            </div>
+            <div class="reveal bg-glass-bg border border-glass-border rounded-xl p-4 flex items-start gap-3">
+                <span class="text-2xl">🔺</span>
+                <div>
+                    <p class="font-semibold text-accent-2">Mierzeja Helska</p>
+                    <p class="text-text-secondary text-sm">Wyjątkowy półwysep długości ~35 km, miejscami tylko 100–200 m szerokości. Hel – miasto na jej końcu (2 755 mk.).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLAJD 10: PODSUMOWANIE / ZAKOŃCZENIE -->
+<div class="slide" data-slide="10">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:500px;height:500px;top:-120px;right:-100px;background:var(--color-accent-1);opacity:0.14;"></div>
+        <div class="blob" style="width:300px;height:300px;bottom:-90px;left:-60px;background:var(--color-accent-2);opacity:0.11;"></div>
+        <div class="blob" style="width:200px;height:200px;top:45%;left:10%;background:var(--color-accent-3);opacity:0.09;"></div>
+    </div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content text-center">
+        <div class="text-[70px] mb-3 animate-[float_3s_ease-in-out_infinite]">🌊</div>
+        <h2 class="font-display text-[clamp(2rem,5vw,3.8rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent mb-4 reveal">Województwo Pomorskie</h2>
+        <p class="text-text-secondary text-lg mb-6 reveal">Morze · Lasy · Historia · Nowoczesność</p>
+        <div class="grid grid-cols-4 gap-3 reveal mb-4">
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-3 text-center">
+                <div class="text-accent-2 font-bold">18 310 km²</div>
+                <div class="text-xs text-text-muted">powierzchnia</div>
+            </div>
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-3 text-center">
+                <div class="text-accent-1 font-bold">2,36 mln</div>
+                <div class="text-xs text-text-muted">mieszkańców</div>
+            </div>
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-3 text-center">
+                <div class="text-accent-3 font-bold">329 m</div>
+                <div class="text-xs text-text-muted">Wieżyca (max)</div>
+            </div>
+            <div class="bg-glass-bg border border-glass-border rounded-xl p-3 text-center">
+                <div class="text-accent-2 font-bold">~313 km</div>
+                <div class="text-xs text-text-muted">wybrzeże</div>
+            </div>
+        </div>
+        <p class="text-text-muted text-sm tracking-[4px] uppercase reveal">Dziękuję za uwagę!</p>
+    </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 10</span>
+</div>
+
+<script>
+let current = 1;
+const total = document.querySelectorAll('.slide').length;
+const dotsContainer = document.getElementById('dots');
+const counter = document.getElementById('counter');
+for (let i = 1; i <= total; i++) { const dot = document.createElement('div'); dot.className = 'dot' + (i === 1 ? ' active' : ''); dot.onclick = () => goToSlide(i); dotsContainer.appendChild(dot); }
+function goToSlide(n) {
+    const prev = document.querySelector('.slide.active');
+    const next = document.querySelector(`.slide[data-slide="${n}"]`);
+    if (prev) prev.classList.remove('active');
+    if (next) { next.classList.add('active'); animateSlide(next); }
+    current = n; updateNav();
+}
+function changeSlide(dir) { let n = current + dir; if (n < 1) n = total; if (n > total) n = 1; goToSlide(n); }
+function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i + 1 === current); }); counter.textContent = current + ' / ' + total; }
+document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } });
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => { const diff = touchStartX - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); });
+
+function animateSlide(slide) {
+    slide.querySelectorAll('.reveal').forEach((el, i) => {
+        el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+        el.offsetHeight;
+        const delay = i * 0.08;
+        el.style.transition = `opacity 0.35s ease ${delay}s, transform 0.35s ease ${delay}s`;
+        el.style.opacity = '1'; el.style.transform = 'translateY(0px)';
+    });
+    slide.querySelectorAll('[data-count]:not(.counted)').forEach(el => {
+        el.classList.add('counted');
+        const target = parseInt(el.dataset.count);
+        let cur = 0; const step = target / 40;
+        const timer = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(timer); } el.textContent = Math.round(cur).toLocaleString('pl'); }, 30);
+    });
+    slide.querySelectorAll('.bar-fill:not(.fill-init)').forEach((bar, i) => {
+        bar.classList.add('fill-init');
+        bar.style.width = '0%'; bar.style.transition = `width 0.6s ease ${i * 0.1}s`; bar.offsetHeight; bar.style.width = bar.dataset.width + '%';
+    });
+}
+
+document.addEventListener('mousemove', (e) => {
+    const s = document.querySelector('.mouse-spotlight');
+    if (s) s.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(59,159,212,0.06), transparent 40%)`;
+});
+
+window.initParticles = function(canvas, options) {
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+    const interactive = options.interactive !== false;
+    const count = options.count || (interactive ? 55 : 18);
+    let mx = -1000, my = -1000;
+    const particles = Array.from({ length: count }, () => ({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 2.5 + 0.8, alpha: Math.random() * 0.35 + 0.1
+    }));
+    if (interactive) {
+        canvas.addEventListener('mousemove', (e) => { const rect = canvas.getBoundingClientRect(); mx = e.clientX - rect.left; my = e.clientY - rect.top; });
+        canvas.addEventListener('mouseleave', () => { mx = -1000; my = -1000; });
+    }
+    (function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            if (interactive) { const dx = p.x - mx, dy = p.y - my, dist = Math.sqrt(dx*dx+dy*dy); if (dist < 120) { const f = (120-dist)/120*2; p.vx += dx/dist*f*0.1; p.vy += dy/dist*f*0.1; } }
+            p.vx *= 0.98; p.vy *= 0.98; p.x += p.vx; p.y += p.vy;
+            if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(59,159,212,${p.alpha})`; ctx.fill();
+        });
+        requestAnimationFrame(animate);
+    })();
+};
+document.querySelectorAll('.particle-canvas').forEach(c => window.initParticles(c, { interactive: true, count: 55 }));
+document.querySelectorAll('.particle-canvas-ambient').forEach(c => window.initParticles(c, { interactive: false, count: 18 }));
+try { animateSlide(document.querySelector('.slide.active')); } catch(e) {}
+</script>
+</body>
+</html>
